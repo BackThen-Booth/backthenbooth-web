@@ -12,7 +12,7 @@ gsap.ticker.lagSmoothing(0)
 
 const TOTAL_FRAMES = 361
 
-const SNAP_FRAMES = [0, 60, 162, 238, 294, 350]
+const SNAP_FRAMES = [0, 59, 161, 237, 293, 349]
 
 type Bounds = {
     x: number,
@@ -348,7 +348,7 @@ export default function Hero() {
         <>
             <canvas ref={canvasRef} />
             <div className="overlay-layer">
-                {frame >= 60 && frame <= 70 && (
+                {frame >= 59 && frame <= 70 && (
                     <div
                         className="text curtain-text"
                         style={{
@@ -361,7 +361,7 @@ export default function Hero() {
                     </div>
                 )}
 
-                {frame >= 238 && frame <= 250 && (
+                {frame >= 237 && frame <= 250 && (
                     <div
                         className="text screen-text"
                         style={{
@@ -375,7 +375,7 @@ export default function Hero() {
                     </div>
                 )}
 
-                {frame >= 294 && frame <= 310 && (
+                {frame >= 293 && frame <= 310 && (
                     <div
                         className="text prop-text"
                         style={{
