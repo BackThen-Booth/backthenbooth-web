@@ -1,0 +1,145 @@
+#hero {
+    min-height: 100vh;
+}
+
+.scene {
+    position: relative;
+    inset: 0;
+    will-change: transform;
+}
+
+canvas {
+    width: 100%;
+    height: 100vh;
+    image-rendering: auto;
+    z-index: 1;
+}
+
+.overlay-layer {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+
+        background:
+            radial-gradient(ellipse at center,
+                rgba(0, 0, 0, 0) 45%,
+                rgba(0, 0, 0, 0.25) 85%);
+
+        z-index: 3;
+    }
+}
+
+.mute-btn {
+    background: linear-gradient(180deg, #fff3c6, #f7e6a8, #d4af37);
+    aspect-ratio: 1;
+    padding: .6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    position: fixed;
+    right: 3rem;
+    bottom: 3rem;
+    opacity: 0.8;
+    z-index: 10;
+    pointer-events: auto;
+    animation: audioPulse 1.6s ease-out infinite;
+}
+
+
+.mute-btn span {
+    font-size: 2rem;
+    color: #000;
+    font-variation-settings: 'wght' 350;
+}
+
+.text {
+    position: absolute;
+    font-weight: 600;
+    font-family: var(--txt-2);
+
+    color: transparent;
+    background: linear-gradient(180deg,
+            #fff3c6 0%,
+            #f7e6a8 15%,
+            #d4af37 30%,
+            #b8962e 45%,
+            #f7e6a8 60%,
+            #fff3c6 75%,
+            #b8962e 90%);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 200% 200%;
+    opacity: 0;
+    animation: goldShift 6s ease infinite,
+        fadeIn 600ms ease forwards;
+    animation-delay: 0.2s;
+    ;
+    line-height: 1.2;
+    text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.35),
+        0 3px 8px rgba(0, 0, 0, 0.55),
+        0 0 12px rgba(212, 175, 55, 0.2);
+}
+
+.curtain-text {
+    max-width: 500px;
+    font-size: 6rem;
+}
+
+.screen-text {
+    max-width: 300px;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.prop-text {
+    font-size: 4rem;
+    max-width: 300px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes goldShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes audioPulse {
+    0% {
+        box-shadow:
+            0 0 3px 0 rgba(255, 210, 120, 0.6),
+            0 0 12px rgba(255, 210, 120, 0.4);
+    }
+
+    70% {
+        box-shadow:
+            0 0 3px 12px rgba(255, 210, 120, 0),
+            0 0 20px rgba(255, 210, 120, 0.6);
+    }
+
+    100% {
+        box-shadow:
+            0 0 3px 0 rgba(255, 210, 120, 0),
+            0 0 12px rgba(255, 210, 120, 0.4);
+    }
+}
