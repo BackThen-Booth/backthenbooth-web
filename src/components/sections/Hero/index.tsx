@@ -12,7 +12,7 @@ gsap.ticker.lagSmoothing(0)
 
 const TOTAL_FRAMES = 361
 
-const SNAP_FRAMES = [1, 60, 162, 238, 294, 350]
+const SNAP_FRAMES = [0, 60, 162, 238, 294, 350]
 
 type Bounds = {
     x: number,
@@ -82,7 +82,7 @@ export default function Hero() {
         }
 
         function frameSrc(index: number) {
-            return `/videos/photobooth/frame_${String(index + 1).padStart(4, "0")}.jpg`
+            return `/videos/photobooth/frames/frame_${String(index + 1).padStart(4, "0")}.jpg`
         }
 
         async function loadFrame(index: number) {
