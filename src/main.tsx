@@ -4,11 +4,11 @@ import './index.css'
 import App from './App.tsx'
 
 // dev
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
 
 // local prod
-createRoot(document.getElementById("root")!).render(<App />)
+// createRoot(document.getElementById("root")!).render(<App />)

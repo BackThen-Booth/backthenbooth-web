@@ -217,7 +217,7 @@ export default function Hero() {
                 ctx.rect(uiX, uiY, uiWidth, uiHeight)
                 ctx.clip()
 
-                ctx.filter = `brightness(${brightnessAnim})`
+                ctx.filter = `brightness(${brightnessAnim}) sepia(0.3)`
 
                 ctx.globalCompositeOperation = "screen"
 
