@@ -1,6 +1,5 @@
 #header {
     width: 100%;
-    height: 4.4rem;
     position: fixed;
     z-index: 110;
     top: 0;
@@ -14,11 +13,12 @@
 }
 
 #header .logo {
-    align-self: stretch;
+    width: 3rem;
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 100%;
     justify-self: flex-start;
+    flex-shrink: 0;
 }
 
 nav {
@@ -45,7 +45,7 @@ nav {
 .nav-link:hover,
 .nav-link:active,
 .nav-link:focus {
-    color: #604b11;
+    color: #312609;
     text-shadow: 0 0 20px #cca01d;
 }
 
@@ -60,6 +60,7 @@ nav {
     font-family: var(--txt-2);
     font-weight: 600;
     line-height: 1;
+    text-transform: uppercase;
 
     padding: .5rem 1.8rem;
 

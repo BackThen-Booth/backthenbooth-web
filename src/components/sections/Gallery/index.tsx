@@ -2,6 +2,8 @@ import './styles.css'
 
 export default function Gallery() {
     return (
-        <div></div>
+        <>
+            <h2 className="section-heading">Experiences curated</h2>
+        </>
     )
 }

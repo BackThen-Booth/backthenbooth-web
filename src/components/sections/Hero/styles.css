@@ -1,4 +1,4 @@
-#hero {
+#home {
     min-height: 100vh;
 }
 
@@ -47,8 +47,8 @@ canvas {
     align-items: center;
     border-radius: 100%;
     position: fixed;
-    right: 3rem;
-    bottom: 3rem;
+    right: 2rem;
+    bottom: 2rem;
     opacity: 0.8;
     z-index: 10;
     pointer-events: auto;

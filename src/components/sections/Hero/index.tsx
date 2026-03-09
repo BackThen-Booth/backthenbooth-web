@@ -148,7 +148,7 @@ export default function Hero() {
 
             ctx.drawImage(img, x, y, drawW, drawH)
 
-            if (frameIndex >= 350 && uiImg.complete) {
+            if (frameIndex >= 349 && uiImg.complete) {
                 const p = uiAnim.current.progress
 
                 const scaleAnim = 0.9 + 0.1 * p
@@ -219,7 +219,7 @@ export default function Hero() {
                 setFrame(frame)
             }
 
-            if (frame >= 350 && uiAnim.current.progress === 0) {
+            if (frame >= 349 && uiAnim.current.progress === 0) {
                 gsap.to(uiAnim.current, {
                     progress: 1,
                     duration: 0.25,
@@ -238,12 +238,12 @@ export default function Hero() {
                     pinnedContainer: canvasRef.current,
                     scrub: 0.5,
                     anticipatePin: 1,
-                    fastScrollEnd: true,
+                    // fastScrollEnd: true,
                     preventOverlaps: true,
                     snap: {
                         delay: 0.2,
                         duration: { min: 0.3, max: 0.6 },
-                        ease: "",
+                        ease: "none",
 
                         snapTo: (value) => {
                             const FRAME_PORTION = 9.5 / 11

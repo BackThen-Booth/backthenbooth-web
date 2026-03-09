@@ -1,17 +1,42 @@
+import type React from 'react'
 import './styles.css'
 
 export default function Header() {
     return (
         <header id="header">
-            <a className="logo">
+            <NavLink to='#home' className='logo'>
                 <img src="/logo.svg" alt="logo" />
-            </a>
+            </NavLink>
             <nav>
-                <a href="#home" className="nav-link">Home</a>
-                <a href="#gallery" className="nav-link">Gallery</a>
-                <a href="#locations" className="nav-link">Locations</a>
+                <NavLink to="#home" className="nav-link">Home</NavLink>
+                <NavLink to="#gallery" className="nav-link">Gallery</NavLink>
+                <NavLink to="#locations" className="nav-link">Locations</NavLink>
             </nav>
-            <a href='#cta' className="cta-btn">CONTACT US</a>
+            <NavLink to='#cta' className="cta-btn">Contact Us</NavLink>
         </header>
+    )
+}
+
+type NavLinkProps = Omit<
+    React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>,
+    "href" | "onClick"
+> & {
+    to: string,
+    children: React.ReactNode
+}
+
+function NavLink({
+    to,
+    children,
+    ...rest
+}: NavLinkProps) {
+    return (
+        <a
+            href={to}
+            onClick={(e) => e.currentTarget.blur()}
+            {...rest}
+        >
+            {children}
+        </a>
     )
 }
