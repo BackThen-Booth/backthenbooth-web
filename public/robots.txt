@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow: /services/
-Sitemap: https://backthenbooth.netlify.app/sitemap.xml
+Sitemap: https://backthenbooth.com/sitemap.xml
