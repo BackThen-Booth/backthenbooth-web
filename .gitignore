@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 *.bat
+*.ps1
 
 video.mov
 video.mp4

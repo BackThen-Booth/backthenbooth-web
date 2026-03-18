@@ -3,16 +3,15 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import start from '../../../assets/images/Start.png'
-import ambientMusic from '../../../assets/audio/ambient.m4a'
 
 import './styles.css'
 
 gsap.registerPlugin(ScrollTrigger)
 gsap.ticker.lagSmoothing(0)
 
-const TOTAL_FRAMES = 361
+const TOTAL_FRAMES = 501
 
-const SNAP_FRAMES = [0, 59, 161, 237, 293, 349]
+const SNAP_FRAMES = [0, 59, 181, 277, 308, 373, 449, 470, 498]
 
 type Bounds = {
     x: number,
@@ -23,9 +22,7 @@ type Bounds = {
 
 export default function Hero() {
     const [frame, setFrame] = useState<number>(0);
-    const [muted, setMuted] = useState<boolean>(true)
 
-    const audioRef = useRef<HTMLAudioElement | null>(null)
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
     const frameBoundsRef = useRef<Bounds | null>({ x: 0, y: 0, w: 0, h: 0 })
@@ -37,16 +34,6 @@ export default function Hero() {
 
     useEffect(() => {
         const canvas = canvasRef.current!
-
-        const audio = new Audio(ambientMusic)
-        audio.loop = true
-        audio.volume = 0
-        audio.preload = 'auto'
-        audio.muted = true
-
-        audio.play().catch(() => { })
-
-        audioRef.current = audio
 
         const ctx = canvas.getContext("2d", { alpha: false })!
 
@@ -82,7 +69,7 @@ export default function Hero() {
         }
 
         function frameSrc(index: number) {
-            return `/videos/photobooth/frames/frame_${String(index + 1).padStart(4, "0")}.jpg`
+            return `/videos/photobooth/frames/frame_${String(index + 1).padStart(4, "0")}.webp`
         }
 
         async function loadFrame(index: number) {
@@ -148,7 +135,7 @@ export default function Hero() {
 
             ctx.drawImage(img, x, y, drawW, drawH)
 
-            if (frameIndex >= 349 && uiImg.complete) {
+            if (frameIndex >= 498 && uiImg.complete) {
                 const p = uiAnim.current.progress
 
                 const scaleAnim = 0.9 + 0.1 * p
@@ -219,7 +206,7 @@ export default function Hero() {
                 setFrame(frame)
             }
 
-            if (frame >= 349 && uiAnim.current.progress === 0) {
+            if (frame >= 481 && uiAnim.current.progress === 0) {
                 gsap.to(uiAnim.current, {
                     progress: 1,
                     duration: 0.25,
@@ -233,12 +220,12 @@ export default function Hero() {
                 scrollTrigger: {
                     trigger: "#home",
                     start: "top top",
-                    end: "+=11000",
+                    end: "+=20000",
                     pin: canvasRef.current,
                     pinnedContainer: canvasRef.current,
                     scrub: 0.5,
                     anticipatePin: 1,
-                    // fastScrollEnd: true,
+                    fastScrollEnd: true,
                     preventOverlaps: true,
                     snap: {
                         delay: 0.2,
@@ -246,7 +233,7 @@ export default function Hero() {
                         ease: "none",
 
                         snapTo: (value) => {
-                            const FRAME_PORTION = 9.5 / 11
+                            const FRAME_PORTION = 19 / 20
 
                             // do NOT snap during zoom
                             if (value > FRAME_PORTION) return value
@@ -268,13 +255,13 @@ export default function Hero() {
             timeline.to(state, {
                 targetFrame: TOTAL_FRAMES - 1,
                 ease: "none",
-                duration: 9.5,
+                duration: 19,
             })
 
             timeline.to(zoomState.current, {
                 scale: () => computeTargetZoom(),
-                ease: "power1.out",
-                duration: 1.5,
+                ease: "none",
+                duration: 1,
                 onUpdate() {
                     renderZoom.current = zoomState.current.scale
                 }
@@ -290,20 +277,6 @@ export default function Hero() {
         }
 
     }, [])
-
-    useEffect(() => {
-        const audio = audioRef.current
-        if (!audio) return
-
-        audio.muted = muted
-
-        if (!muted) {
-            audio.volume = 0.6
-            audio.play().catch(() => { })
-        } else {
-            audio.volume = 0
-        }
-    }, [muted])
 
     function computeTargetZoom() {
         const bounds = frameBoundsRef.current!
@@ -337,10 +310,9 @@ export default function Hero() {
     const anchors = useMemo(() => ({
         curtain: [0.25, 0.20],
         screen: [0.50, 0.35],
-        props: [0.29, 0.15],
+        props: [0.27, 0.15],
     } as const), [])
 
-    const curtainPos = framePos(...anchors.curtain)
     const screenPos = framePos(...anchors.screen)
     const propsPos = framePos(...anchors.props)
 
@@ -348,20 +320,60 @@ export default function Hero() {
         <>
             <canvas ref={canvasRef} />
             <div className="overlay-layer">
-                {frame >= 59 && frame <= 70 && (
+                {frame >= 59 && frame <= 91 && (
                     <div
-                        className="text curtain-text"
-                        style={{
-                            left: curtainPos.left,
-                            top: curtainPos.top,
-                            fontSize: frameFont(fontScales.curtain)
-                        }}
+                        className="text left middle"
                     >
-                        The scene is yours
+                        <div className="text-main">
+                            Remember back then
+                            <br />
+                            when photos were something you
+                            <br />
+                            could hold?
+                        </div>
+                        <div className="text-sub">
+                            Not just something you scrolled past.
+                            <br />
+                            Something you kept.
+                        </div>
                     </div>
                 )}
 
-                {frame >= 237 && frame <= 250 && (
+                {frame >= 181 && frame <= 226 && (
+                    <div
+                        className="text left bottom"
+                    >
+                        <div className="text-main">
+                            Photos in wallets.
+                            <br />
+                            On bedroom mirrors.
+                            <br />
+                            Taped inside notebooks.
+                        </div>
+                        <div className="text-sub">
+                            Little pieces of time that stayed with you.
+                        </div>
+                    </div>
+                )}
+
+                {frame >= 277 && frame <= 305 && (
+                    <div
+                        className="text screen-text"
+                        style={{
+                            left: screenPos.left,
+                            top: screenPos.top,
+                            transform: "translate(-50%, -50%)",
+                        }}
+                    >
+                        <div className="text-mid">
+                            But somewhere along the way
+                            <br />
+                            our memories moved to screens.
+                        </div>
+                    </div>
+                )}
+                
+                {frame >= 308 && frame <= 337 && (
                     <div
                         className="text screen-text"
                         style={{
@@ -371,31 +383,58 @@ export default function Hero() {
                             fontSize: frameFont(fontScales.screen)
                         }}
                     >
-                        Make yourself comfortable
+                        <div className="text-mid">
+                            Thousands of photos saved.
+                            <br/>
+                            Almost none we ever hold.
+                        </div>
                     </div>
                 )}
 
-                {frame >= 293 && frame <= 310 && (
+                {frame >= 373 && frame <= 411 && (
                     <div
                         className="text prop-text"
                         style={{
                             left: propsPos.left,
                             top: propsPos.top,
-                            fontSize: frameFont(fontScales.props)
                         }}
                     >
-                        Choose your alter ego
+                        <div className="text-main">
+                            So we built BackThen Booth.
+                        </div>
+                        <div className="text-sub">
+                            To bring back the joy of printing a moment the second it happens.
+                        </div>
                     </div>
                 )}
 
-                <button
-                    className={`mute-btn${muted ? " muted" : ""}`}
-                    onClick={() => setMuted(m => !m)}
-                >
-                    <span className="material-symbols-rounded">
-                        {muted ? "volume_off" : "volume_up"}
-                    </span>
-                </button>
+                {frame >= 449 && frame <= 467 && (
+                    <div
+                        className="text left bottom"
+                    >
+                        <div className="text-main">
+                            We believe
+                            <br />
+                            the best memories
+                            <br />
+                            should exist off-screen.
+                        </div>
+                    </div>
+                )}
+
+                {frame >= 470 && frame <= 488 && (
+                    <div
+                        className="text right bottom"
+                    >
+                        <div className="text-main">
+                            Because
+                            <br />
+                            some moments
+                            <br />
+                            deserve to be held forever.
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )

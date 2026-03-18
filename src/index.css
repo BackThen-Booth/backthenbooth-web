@@ -1,18 +1,13 @@
 /* fonts */
 @font-face {
-  font-family: DMSans;
-  src: url(./assets/fonts/DMSans-Variable.ttf) format("truetype");
-  font-display: swap;
-}
-@font-face {
-  font-family: BodoniModa;
-  src: url(./assets/fonts/BodoniModa-Variable.ttf) format("truetype");
+  font-family: Satoshi;
+  src: url(./assets/fonts/Satoshi-Variable.woff2) format("woff2");
   font-display: swap;
 }
 
 /* root config */
 :root {
-  font-family: var(--txt-1);
+  font-family: Satoshi, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
 
   font-synthesis: none;
@@ -40,9 +35,6 @@
   --fs-400: clamp(2.5rem, 2rem + 2vw, 4rem);
 
   --fs-hero: clamp(2.5rem, 1.8rem + 4vw, 6rem);
-
-  --txt-1: DMSans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --txt-2: BodoniModa, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 html, body {

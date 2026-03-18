@@ -1,0 +1,15 @@
+.folder {
+    max-width: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.folder-icon {
+    width: 4rem;
+}
+
+.folder-label {
+    text-align: center;
+}

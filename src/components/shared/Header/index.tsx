@@ -7,7 +7,7 @@ export default function Header() {
             <NavLink to='#home' className='logo'>
                 <img src="/logo.svg" alt="logo" />
             </NavLink>
-            <nav>
+            <nav className='glass'>
                 <NavLink to="#home" className="nav-link">Home</NavLink>
                 <NavLink to="#gallery" className="nav-link">Gallery</NavLink>
                 <NavLink to="#locations" className="nav-link">Locations</NavLink>
