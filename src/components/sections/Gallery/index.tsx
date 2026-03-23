@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import Folder from '../../ui/Folder'
 import './styles.css'
 
-const HEADER_HEIGHT = 80
+// const HEADER_HEIGHT = 80
 const TITLE_HEIGHT = 180
 const FOLDER_W = 90
 const FOLDER_H = 100
