@@ -23,6 +23,8 @@ type Bounds = {
 export default function Hero() {
     const [frame, setFrame] = useState<number>(0);
 
+    const [mode, setMode] = useState<"mobile" | "desktop" | null>(null)
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
     const frameBoundsRef = useRef<Bounds | null>({ x: 0, y: 0, w: 0, h: 0 })
@@ -33,6 +35,20 @@ export default function Hero() {
     const uiAnim = useRef<{ progress: number }>({ progress: 0 })
 
     useEffect(() => {
+        const checkSize = () => {
+            if (window.innerWidth <= 800) setMode("mobile");
+            else setMode("desktop")
+        };
+
+        checkSize();
+        window.addEventListener("resize", checkSize);
+
+        return () => window.removeEventListener("resize", checkSize);
+    }, []);
+
+    useEffect(() => {
+        if (!mode) return
+
         const canvas = canvasRef.current!
 
         const ctx = canvas.getContext("2d", { alpha: false })!
@@ -69,7 +85,7 @@ export default function Hero() {
         }
 
         function frameSrc(index: number) {
-            return `/videos/photobooth/frames/frame_${String(index + 1).padStart(4, "0")}.webp`
+            return `/videos/photobooth/${mode!}/frame_${String(index + 1).padStart(4, "0")}.webp`
         }
 
         async function loadFrame(index: number) {
@@ -144,10 +160,12 @@ export default function Hero() {
                 const { x, y, w, h } = frameBoundsRef.current!
 
                 const uiWidth = h * uiScale
-                const uiHeight = uiWidth / (382 / 230)
+                const uiHeight = uiWidth / (382 / 226)
+
+                console.log(uiWidth, uiHeight)
 
                 const uiX = (x + w * 0.50) - (uiWidth / 2)
-                const uiY = (y + h * 0.50) - uiHeight
+                const uiY = (y + h * 0.50) - uiHeight - (h * 0.008)
 
                 const imgW = uiImg.width
                 const imgH = uiImg.height
@@ -275,8 +293,7 @@ export default function Hero() {
             controller.abort()
             ScrollTrigger.killAll()
         }
-
-    }, [])
+    }, [mode])
 
     function computeTargetZoom() {
         const bounds = frameBoundsRef.current!

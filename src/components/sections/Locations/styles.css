@@ -1,0 +1,15 @@
+#locations {
+    padding: 3rem;
+    height: calc(100vh + 80px);
+    display: flex;
+    /* overflow: hidden; */
+    background-color: #2E2E2E;
+    position: sticky;
+    top: -80px;
+
+    border-radius: 80px 80px 0 0;
+    margin-top: -80px;
+    padding-block: 80px;
+
+    z-index: 10;
+}

@@ -4,13 +4,14 @@ import './styles.css'
 
 export default function Section({
     name,
-    children
+    children,
+    ...rest
 }: {
     name: string,
     children: React.ReactNode
 }) {
   return (
-    <section className="section" id={name}>
+    <section className="section" id={name} {...rest}>
         {children}
     </section>
   )

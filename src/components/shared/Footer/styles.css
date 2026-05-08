@@ -1,0 +1,49 @@
+#footer {
+    width: 100%;
+    padding: 2rem 4rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: #000;
+    color: #fff;
+    border-radius: 80px 80px 0 0;
+    z-index: 110;
+    margin-top: -80px;
+}
+
+.footer-email {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    line-height: 1;
+    color: #fff;
+
+    span {
+        font-size: 2rem;
+    }
+}
+
+.footer-socials {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    .footer-social {
+        aspect-ratio: 1;
+        width: 2rem;
+        overflow: hidden;
+    }
+}
+
+.footer-legal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+}
