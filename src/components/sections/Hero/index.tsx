@@ -12,7 +12,7 @@ gsap.ticker.lagSmoothing(0)
 
 const TOTAL_FRAMES = 501
 
-const SNAP_FRAMES = [0, 59, 181, 277, 308, 373, 449, 470, 498]
+// const SNAP_FRAMES = [0, 59, 181, 277, 308, 373, 449, 470, 498]
 
 type Bounds = {
     x: number,
@@ -171,7 +171,7 @@ export default function Hero() {
         function draw(frameIndex: number) {
             const img = frames[frameIndex]
             if (!img) return
-            
+
             const canvasW = viewport.width
             const canvasH = viewport.height
 
