@@ -1,8 +1,18 @@
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import './styles.css'
-import { MapContainer } from 'react-leaflet'
-import { TileLayer } from 'react-leaflet'
-import { Marker } from 'react-leaflet'
+
+delete (L.Icon.Default.prototype as any)._getIconUrl
+
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+})
 
 const LOCATIONS = [
   {
