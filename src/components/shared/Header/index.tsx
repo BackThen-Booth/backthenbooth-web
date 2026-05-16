@@ -43,6 +43,9 @@ export default function Header() {
                 no-select="true"
                 data-collapsed={collapsed}
                 data-menu={open}
+                onClick={() => {
+                    if (open && collapsed) setOpen(false)
+                }}
             >
                 <NavLink to='#home' className='logo'>
                     <img src="/logo.svg" alt="logo" />
@@ -75,9 +78,9 @@ export default function Header() {
                     <NavLink to="#home" className="nav-link">Home</NavLink>
                     <NavLink to="#gallery" className="nav-link">Gallery</NavLink>
                     <NavLink to="#locations" className="nav-link">Locations</NavLink>
+                    {collapsed && <NavLink to='#contact' className="cta-btn" data-collapsed={collapsed}>Contact Us</NavLink>}
                 </nav>}
             </header>
-            {collapsed && <NavLink to='#contact' className="cta-btn" data-collapsed={collapsed}>Contact Us</NavLink>}
         </>
     )
 }

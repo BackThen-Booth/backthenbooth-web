@@ -1,17 +1,21 @@
 #locations {
+    --roundness: 80px;
+
     padding: 3rem;
-    min-height: calc(100vh + 80px);
-    height: calc(100vh + 80px);
+    min-height: calc(100vh + var(--roundness));
+    height: calc(100vh + var(--roundness));
     display: flex;
     background-color: #2E2E2E;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 
-    border-radius: 80px 80px 0 0;
+    border-radius: var(--roundness) var(--roundness) 0 0;
     
     @media (width < 768px) {
         padding-inline: 1.5rem;
+
+        --roundness: 60px;
     }
 }
 

@@ -1,17 +1,20 @@
 #contact {
+    --roundness: 80px;
     padding: 3rem;
-    height: calc(100vh + 80px);
+    height: calc(100vh + var(--roundness));
     display: flex;
     flex-direction: column;
     background-color: #fff;
     gap: 2rem;
 
-    border-radius: 80px 80px 0 0;
+    border-radius: var(--roundness) var(--roundness) 0 0;
 
     color: #000;
     
     @media (width < 768px) {
         padding-inline: 1.5rem;
+
+        --roundness: 60px
     }
 }
 

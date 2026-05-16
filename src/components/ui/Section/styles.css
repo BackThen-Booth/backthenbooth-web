@@ -1,10 +1,16 @@
 .section {
+    --roundness: 80px;
+
     width: 100%;
     position: sticky;
     min-height: 100vh;
-    top: -80px;
+    top: calc(-1 * var(--roundness));
     overflow: hidden;
-    padding-block: 80px;
+    padding-block: var(--roundness);
+
+    @media (width < 768px) {
+        --roundness: 60px
+    }
 }
 
 .section#home {
@@ -17,5 +23,5 @@
 }
 
 #home[data-mobile="true"] {
-    height: calc(14000px + 100vh) !important;
+    height: calc(18000px + 100vh) !important;
 }

@@ -259,7 +259,7 @@ export default function Hero() {
                 scrollTrigger: {
                     trigger: "#home",
                     start: "top top",
-                    end: mode == "desktop" ? "+=20000" : "+14000",
+                    end: mode == "desktop" ? "+=20000" : "+18000",
                     // pin: canvasRef.current,
                     // pinnedContainer: canvasRef.current,
                     scrub: 0.5,
@@ -267,28 +267,28 @@ export default function Hero() {
                     fastScrollEnd: true,
                     preventOverlaps: true,
                     pinSpacing: false,
-                    snap: {
-                        delay: 0.2,
-                        duration: { min: 0.3, max: 0.6 },
-                        ease: "none",
+                    // snap: {
+                    //     delay: 0.2,
+                    //     duration: { min: 0.3, max: 0.6 },
+                    //     ease: "none",
 
-                        snapTo: (value) => {
-                            const FRAME_PORTION = 19 / 20
+                    //     snapTo: (value) => {
+                    //         const FRAME_PORTION = 19 / 20
 
-                            // do NOT snap during zoom
-                            if (value > FRAME_PORTION) return value
+                    //         // do NOT snap during zoom
+                    //         if (value > FRAME_PORTION) return value
 
-                            // convert timeline progress -> frame progress
-                            const frameProgress = value / FRAME_PORTION
-                            const frame = frameProgress * (TOTAL_FRAMES - 1)
+                    //         // convert timeline progress -> frame progress
+                    //         const frameProgress = value / FRAME_PORTION
+                    //         const frame = frameProgress * (TOTAL_FRAMES - 1)
 
-                            const snappedFrame = SNAP_FRAMES.reduce((a, b) =>
-                                Math.abs(b - frame) < Math.abs(a - frame) ? b : a
-                            )
-                            // convert back -> timeline progress
-                            return (snappedFrame / (TOTAL_FRAMES - 1)) * FRAME_PORTION
-                        }
-                    }
+                    //         const snappedFrame = SNAP_FRAMES.reduce((a, b) =>
+                    //             Math.abs(b - frame) < Math.abs(a - frame) ? b : a
+                    //         )
+                    //         // convert back -> timeline progress
+                    //         return (snappedFrame / (TOTAL_FRAMES - 1)) * FRAME_PORTION
+                    //     }
+                    // }
                 }
             })
 

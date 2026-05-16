@@ -26,6 +26,8 @@
     grid-template-columns: repeat(2, 1fr);
     place-items: flex-start;
     padding-inline: 1.5rem;
+    padding-block: 1rem;
+    background: var(--bg);
 }
 #header[data-menu="true"] {
     position: fixed;
@@ -76,6 +78,7 @@
 
     .nav-link {
         font-size: 3.5vmax;
+        background-color: red;
     }
 }
 
@@ -107,9 +110,6 @@ nav {
 }
 
 .cta-btn[data-collapsed="true"] {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
     z-index: 100;
     padding-block: 1rem;
 }

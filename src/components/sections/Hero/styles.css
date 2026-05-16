@@ -25,7 +25,7 @@ canvas {
     z-index: 2;
     pointer-events: none;
 
-    /* &::before {
+    &::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -37,7 +37,7 @@ canvas {
                 rgba(0, 0, 0, 0.25) 85%);
 
         z-index: 3;
-    } */
+    }
 }
 
 .mute-btn {
@@ -82,15 +82,27 @@ canvas {
     font-weight: 900;
     line-height: 1.2;
     font-size: var(--fs-400);
+    
+    @media (width < 768px) {
+        font-size: var(--fs-300);
+    }
 }
 .text-mid {
     font-size: var(--fs-300);
     font-weight: 900;
     line-height: 1;
+
+    @media (width < 768px) {
+        font-size: var(--fs-250);
+    }
 }
 .text-sub {
     color: #C5C5C5;
     font-size: var(--fs-250);
+    
+    @media (width < 768px) {
+        font-size: var(--fs-200);
+    }
 }
 
 .text.left {

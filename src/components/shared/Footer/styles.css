@@ -1,4 +1,6 @@
 #footer {
+    --roundness: 80px;
+
     width: 100%;
     padding: 2rem 4rem;
     overflow: hidden;
@@ -9,8 +11,12 @@
     gap: 2rem;
     background-color: #000;
     color: #fff;
-    border-radius: 80px 80px 0 0;
+    border-radius: var(--roundness) var(--roundness) 0 0;
     z-index: 110;
+
+    @media (width < 768px) {
+        --roundness: 60px
+    }
 }
 
 .footer-email {
