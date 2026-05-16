@@ -259,7 +259,7 @@ export default function Hero() {
                 scrollTrigger: {
                     trigger: "#home",
                     start: "top top",
-                    end: mode == "desktop" ? "+=20000" : "+8000",
+                    end: mode == "desktop" ? "+=20000" : "+14000",
                     // pin: canvasRef.current,
                     // pinnedContainer: canvasRef.current,
                     scrub: 0.5,

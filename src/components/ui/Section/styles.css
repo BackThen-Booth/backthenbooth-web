@@ -17,5 +17,5 @@
 }
 
 #home[data-mobile="true"] {
-    height: calc(8000px + 100vh) !important;
+    height: calc(14000px + 100vh) !important;
 }
