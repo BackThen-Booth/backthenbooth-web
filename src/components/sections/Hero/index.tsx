@@ -49,10 +49,8 @@ export default function Hero() {
         return () => window.removeEventListener("resize", checkSize);
     }, []);
 
-    useEffect(() => {})
-
     useEffect(() => {
-        if (!mode) return
+        if (!mode || !loading) return
 
         const canvas = canvasRef.current!
 
@@ -316,7 +314,7 @@ export default function Hero() {
             controller.abort()
             ScrollTrigger.killAll()
         }
-    }, [mode])
+    }, [mode, loading])
 
     function computeTargetZoom() {
         const uiScale = mode == "desktop" ? 0.49 : 0.37;
@@ -381,128 +379,126 @@ export default function Hero() {
                     </div>
                 )
             }
+            <canvas ref={canvasRef} style={{ display: loading ? 'none' : 'block' }} />
             {!loading && (
-                <>
-                    <canvas ref={canvasRef} />
-                    <div className="overlay-layer">
-                        {frame >= 59 && frame <= 91 && (
-                            <div
-                                className="text left middle"
-                            >
-                                <div className="text-main">
-                                    Remember back then
-                                    <br />
-                                    when photos were something you
-                                    <br />
-                                    could hold?
-                                </div>
-                                <div className="text-sub">
-                                    Not just something you scrolled past.
-                                    <br />
-                                    Something you kept.
-                                </div>
+                <div className="overlay-layer">
+                    {frame >= 59 && frame <= 91 && (
+                        <div
+                            className="text left middle"
+                        >
+                            <div className="text-main">
+                                Remember back then
+                                <br />
+                                when photos were something you
+                                <br />
+                                could hold?
                             </div>
-                        )}
+                            <div className="text-sub">
+                                Not just something you scrolled past.
+                                <br />
+                                Something you kept.
+                            </div>
+                        </div>
+                    )}
 
-                        {frame >= 181 && frame <= 226 && (
-                            <div
-                                className="text left bottom"
-                            >
-                                <div className="text-main">
-                                    Photos in wallets.
-                                    <br />
-                                    On bedroom mirrors.
-                                    <br />
-                                    Taped inside notebooks.
-                                </div>
-                                <div className="text-sub">
-                                    Little pieces of time that stayed with you.
-                                </div>
+                    {frame >= 181 && frame <= 226 && (
+                        <div
+                            className="text left bottom"
+                        >
+                            <div className="text-main">
+                                Photos in wallets.
+                                <br />
+                                On bedroom mirrors.
+                                <br />
+                                Taped inside notebooks.
                             </div>
-                        )}
+                            <div className="text-sub">
+                                Little pieces of time that stayed with you.
+                            </div>
+                        </div>
+                    )}
 
-                        {frame >= 277 && frame <= 305 && (
-                            <div
-                                className="text screen-text"
-                                style={{
-                                    left: screenPos.left,
-                                    top: screenPos.top,
-                                    transform: "translate(-50%, -50%)",
-                                }}
-                            >
-                                <div className="text-mid">
-                                    But somewhere along the way
-                                    <br />
-                                    our memories moved to screens.
-                                </div>
+                    {frame >= 277 && frame <= 305 && (
+                        <div
+                            className="text screen-text"
+                            style={{
+                                left: screenPos.left,
+                                top: screenPos.top,
+                                transform: "translate(-50%, -50%)",
+                            }}
+                        >
+                            <div className="text-mid">
+                                But somewhere along the way
+                                <br />
+                                our memories moved to screens.
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {frame >= 308 && frame <= 337 && (
-                            <div
-                                className="text screen-text"
-                                style={{
-                                    left: screenPos.left,
-                                    top: screenPos.top,
-                                    transform: "translate(-50%, -50%)",
-                                    fontSize: frameFont(fontScales.screen)
-                                }}
-                            >
-                                <div className="text-mid">
-                                    Thousands of photos saved.
-                                    <br />
-                                    Almost none we ever hold.
-                                </div>
+                    {frame >= 308 && frame <= 337 && (
+                        <div
+                            className="text screen-text"
+                            style={{
+                                left: screenPos.left,
+                                top: screenPos.top,
+                                transform: "translate(-50%, -50%)",
+                                fontSize: frameFont(fontScales.screen)
+                            }}
+                        >
+                            <div className="text-mid">
+                                Thousands of photos saved.
+                                <br />
+                                Almost none we ever hold.
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {frame >= 373 && frame <= 411 && (
-                            <div
-                                className="text prop-text"
-                                style={{
-                                    left: propsPos.left,
-                                    top: propsPos.top,
-                                    fontSize: frameFont(fontScales.props)
-                                }}
-                            >
-                                <div className="text-main">
-                                    So we built BackThen Booth.
-                                </div>
-                                <div className="text-sub">
-                                    To bring back the joy of printing a moment the second it happens.
-                                </div>
+                    {frame >= 373 && frame <= 411 && (
+                        <div
+                            className="text prop-text"
+                            style={{
+                                left: propsPos.left,
+                                top: propsPos.top,
+                                fontSize: frameFont(fontScales.props)
+                            }}
+                        >
+                            <div className="text-main">
+                                So we built BackThen Booth.
                             </div>
-                        )}
+                            <div className="text-sub">
+                                To bring back the joy of printing a moment the second it happens.
+                            </div>
+                        </div>
+                    )}
 
-                        {frame >= 449 && frame <= 467 && (
-                            <div
-                                className="text left bottom"
-                            >
-                                <div className="text-main">
-                                    We believe
-                                    <br />
-                                    the best memories
-                                    <br />
-                                    should exist off-screen.
-                                </div>
+                    {frame >= 449 && frame <= 467 && (
+                        <div
+                            className="text left bottom"
+                        >
+                            <div className="text-main">
+                                We believe
+                                <br />
+                                the best memories
+                                <br />
+                                should exist off-screen.
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {frame >= 470 && frame <= 488 && (
-                            <div
-                                className="text right bottom"
-                            >
-                                <div className="text-main">
-                                    Because
-                                    <br />
-                                    some moments
-                                    <br />
-                                    deserve to be held forever.
-                                </div>
+                    {frame >= 470 && frame <= 488 && (
+                        <div
+                            className="text right bottom"
+                        >
+                            <div className="text-main">
+                                Because
+                                <br />
+                                some moments
+                                <br />
+                                deserve to be held forever.
                             </div>
-                        )}
-                    </div>
-                </>
+                        </div>
+                    )}
+                </div>
             )}
         </>
     )
