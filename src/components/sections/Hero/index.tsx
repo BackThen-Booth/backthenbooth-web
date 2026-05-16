@@ -94,51 +94,46 @@ export default function Hero() {
         }
 
         async function loadInitialFrames() {
-            // first frames needed immediately
-            const INITIAL_BATCH = 40
-
-            // prioritize important frames
-            const priorityFrames = [
-                ...Array.from(
-                    { length: INITIAL_BATCH },
-                    (_, i) => i
-                ),
-                ...SNAP_FRAMES
-            ]
-
-            // remove duplicates
-            const uniqueFrames = [...new Set(priorityFrames)]
-
-            // load critical startup frames first
-            await Promise.all([
-                ...uniqueFrames.map(loadFrame),
-                uiImg.decode()
-            ])
+            // load ONLY frame 0 — show something immediately
+            await Promise.all([loadFrame(0), uiImg.decode()])
 
             draw(0)
-
             state.renderedFrame = 0
-
             setFrame(0)
 
+            // start animation immediately — GSAP will scrub what's loaded
             startAnimation()
 
-            // progressively load remaining frames
-            progressiveLoad()
+            // then load in priority order without blocking
+            loadInPriorityOrder()
         }
 
-        async function progressiveLoad() {
-            for (let i = 0; i < TOTAL_FRAMES; i++) {
-                // skip already loaded
+        async function loadInPriorityOrder() {
+            // 1. next ~10 frames so early scroll feels smooth
+            const earlyFrames = Array.from({ length: 10 }, (_, i) => i + 1)
+
+            // 2. snap frames so snapping always lands on a loaded frame  
+            // 3. rest in sequence
+            const queue = [
+                ...earlyFrames,
+                ...SNAP_FRAMES.filter(f => f > 10),
+                ...Array.from({ length: TOTAL_FRAMES }, (_, i) => i)
+                    .filter(i => i > 10 && !SNAP_FRAMES.includes(i))
+            ]
+
+            // deduplicate preserving order
+            const seen = new Set<number>()
+            const deduped = queue.filter(i => {
+                if (seen.has(i)) return false
+                seen.add(i)
+                return true
+            })
+
+            for (const i of deduped) {
                 if (frames[i]) continue
-
                 await loadFrame(i)
-
-                // yield occasionally so UI stays smooth
-                if (i % 3 === 0) {
-                    await new Promise(resolve =>
-                        requestIdleCallback(resolve)
-                    )
+                if (i % 5 === 0) {
+                    await new Promise(resolve => requestIdleCallback(resolve, { timeout: 50 }))
                 }
             }
         }
