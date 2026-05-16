@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 import './styles.css'
 
@@ -9,9 +9,23 @@ const Contact = React.lazy(() => import('../components/sections/Contact'))
 const Locations = React.lazy(() => import('../components/sections/Locations'))
 
 export default function Landing() {
+  const [mode, setMode] = useState<"mobile" | "desktop" | null>(null)
+
+  useEffect(() => {
+    const checkSize = () => {
+      if (window.innerWidth <= 800) setMode("mobile");
+      else setMode("desktop")
+    };
+
+    checkSize();
+    window.addEventListener("resize", checkSize);
+
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
+
   return (
     <>
-      <Section name="home">
+      <Section name="home" data-mobile={mode == "desktop" ? false : true}>
         <Hero />
       </Section>
       <Section name="gallery">

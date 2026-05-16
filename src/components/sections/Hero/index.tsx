@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import start from '../../../assets/images/Start.png'
 
 import './styles.css'
+import Loader from '../../ui/Loader'
 
 gsap.registerPlugin(ScrollTrigger)
 gsap.ticker.lagSmoothing(0)
@@ -24,6 +25,8 @@ export default function Hero() {
     const [frame, setFrame] = useState<number>(0);
 
     const [mode, setMode] = useState<"mobile" | "desktop" | null>(null)
+
+    const [loading, setLoading] = useState<boolean>(true)
 
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -45,6 +48,8 @@ export default function Hero() {
 
         return () => window.removeEventListener("resize", checkSize);
     }, []);
+
+    useEffect(() => {})
 
     useEffect(() => {
         if (!mode) return
@@ -101,6 +106,8 @@ export default function Hero() {
                 ...firstChunk.map(loadFrame),
                 uiImg.decode()
             ])
+
+            setLoading(false)
 
             draw(0)
             state.renderedFrame = 0
@@ -254,7 +261,7 @@ export default function Hero() {
                 scrollTrigger: {
                     trigger: "#home",
                     start: "top top",
-                    end: "+=20000",
+                    end: mode == "desktop" ? "+=20000" : "+14000",
                     // pin: canvasRef.current,
                     // pinnedContainer: canvasRef.current,
                     scrub: 0.5,
@@ -359,125 +366,144 @@ export default function Hero() {
 
     return (
         <>
-            <canvas ref={canvasRef} />
-            <div className="overlay-layer">
-                {frame >= 59 && frame <= 91 && (
-                    <div
-                        className="text left middle"
-                    >
-                        <div className="text-main">
-                            Remember back then
-                            <br />
-                            when photos were something you
-                            <br />
-                            could hold?
-                        </div>
-                        <div className="text-sub">
-                            Not just something you scrolled past.
-                            <br />
-                            Something you kept.
-                        </div>
+            {
+                loading && (
+                    <div style={{
+                        width: "100vw",
+                        height: "100vh",
+                        position: "fixed",
+                        inset: 0,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
+                        <Loader />
                     </div>
-                )}
+                )
+            }
+            {!loading && (
+                <>
+                    <canvas ref={canvasRef} />
+                    <div className="overlay-layer">
+                        {frame >= 59 && frame <= 91 && (
+                            <div
+                                className="text left middle"
+                            >
+                                <div className="text-main">
+                                    Remember back then
+                                    <br />
+                                    when photos were something you
+                                    <br />
+                                    could hold?
+                                </div>
+                                <div className="text-sub">
+                                    Not just something you scrolled past.
+                                    <br />
+                                    Something you kept.
+                                </div>
+                            </div>
+                        )}
 
-                {frame >= 181 && frame <= 226 && (
-                    <div
-                        className="text left bottom"
-                    >
-                        <div className="text-main">
-                            Photos in wallets.
-                            <br />
-                            On bedroom mirrors.
-                            <br />
-                            Taped inside notebooks.
-                        </div>
-                        <div className="text-sub">
-                            Little pieces of time that stayed with you.
-                        </div>
-                    </div>
-                )}
+                        {frame >= 181 && frame <= 226 && (
+                            <div
+                                className="text left bottom"
+                            >
+                                <div className="text-main">
+                                    Photos in wallets.
+                                    <br />
+                                    On bedroom mirrors.
+                                    <br />
+                                    Taped inside notebooks.
+                                </div>
+                                <div className="text-sub">
+                                    Little pieces of time that stayed with you.
+                                </div>
+                            </div>
+                        )}
 
-                {frame >= 277 && frame <= 305 && (
-                    <div
-                        className="text screen-text"
-                        style={{
-                            left: screenPos.left,
-                            top: screenPos.top,
-                            transform: "translate(-50%, -50%)",
-                        }}
-                    >
-                        <div className="text-mid">
-                            But somewhere along the way
-                            <br />
-                            our memories moved to screens.
-                        </div>
-                    </div>
-                )}
+                        {frame >= 277 && frame <= 305 && (
+                            <div
+                                className="text screen-text"
+                                style={{
+                                    left: screenPos.left,
+                                    top: screenPos.top,
+                                    transform: "translate(-50%, -50%)",
+                                }}
+                            >
+                                <div className="text-mid">
+                                    But somewhere along the way
+                                    <br />
+                                    our memories moved to screens.
+                                </div>
+                            </div>
+                        )}
 
-                {frame >= 308 && frame <= 337 && (
-                    <div
-                        className="text screen-text"
-                        style={{
-                            left: screenPos.left,
-                            top: screenPos.top,
-                            transform: "translate(-50%, -50%)",
-                            fontSize: frameFont(fontScales.screen)
-                        }}
-                    >
-                        <div className="text-mid">
-                            Thousands of photos saved.
-                            <br />
-                            Almost none we ever hold.
-                        </div>
-                    </div>
-                )}
+                        {frame >= 308 && frame <= 337 && (
+                            <div
+                                className="text screen-text"
+                                style={{
+                                    left: screenPos.left,
+                                    top: screenPos.top,
+                                    transform: "translate(-50%, -50%)",
+                                    fontSize: frameFont(fontScales.screen)
+                                }}
+                            >
+                                <div className="text-mid">
+                                    Thousands of photos saved.
+                                    <br />
+                                    Almost none we ever hold.
+                                </div>
+                            </div>
+                        )}
 
-                {frame >= 373 && frame <= 411 && (
-                    <div
-                        className="text prop-text"
-                        style={{
-                            left: propsPos.left,
-                            top: propsPos.top,
-                            fontSize: frameFont(fontScales.props)
-                        }}
-                    >
-                        <div className="text-main">
-                            So we built BackThen Booth.
-                        </div>
-                        <div className="text-sub">
-                            To bring back the joy of printing a moment the second it happens.
-                        </div>
-                    </div>
-                )}
+                        {frame >= 373 && frame <= 411 && (
+                            <div
+                                className="text prop-text"
+                                style={{
+                                    left: propsPos.left,
+                                    top: propsPos.top,
+                                    fontSize: frameFont(fontScales.props)
+                                }}
+                            >
+                                <div className="text-main">
+                                    So we built BackThen Booth.
+                                </div>
+                                <div className="text-sub">
+                                    To bring back the joy of printing a moment the second it happens.
+                                </div>
+                            </div>
+                        )}
 
-                {frame >= 449 && frame <= 467 && (
-                    <div
-                        className="text left bottom"
-                    >
-                        <div className="text-main">
-                            We believe
-                            <br />
-                            the best memories
-                            <br />
-                            should exist off-screen.
-                        </div>
-                    </div>
-                )}
+                        {frame >= 449 && frame <= 467 && (
+                            <div
+                                className="text left bottom"
+                            >
+                                <div className="text-main">
+                                    We believe
+                                    <br />
+                                    the best memories
+                                    <br />
+                                    should exist off-screen.
+                                </div>
+                            </div>
+                        )}
 
-                {frame >= 470 && frame <= 488 && (
-                    <div
-                        className="text right bottom"
-                    >
-                        <div className="text-main">
-                            Because
-                            <br />
-                            some moments
-                            <br />
-                            deserve to be held forever.
-                        </div>
+                        {frame >= 470 && frame <= 488 && (
+                            <div
+                                className="text right bottom"
+                            >
+                                <div className="text-main">
+                                    Because
+                                    <br />
+                                    some moments
+                                    <br />
+                                    deserve to be held forever.
+                                </div>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
+                </>
+            )}
         </>
     )
 }

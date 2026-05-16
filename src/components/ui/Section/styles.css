@@ -15,3 +15,7 @@
 #home {
     height: calc(20000px + 100vh);
 }
+
+#home[data-mobile="true"] {
+    height: calc(14000px + 100vh) !important;
+}
