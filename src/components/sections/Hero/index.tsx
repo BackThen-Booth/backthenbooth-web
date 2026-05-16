@@ -94,49 +94,29 @@ export default function Hero() {
         }
 
         async function loadInitialFrames() {
-            // load ONLY frame 0 — show something immediately
-            await Promise.all([loadFrame(0), uiImg.decode()])
+            // preload first chunk before starting
+            const CHUNK_SIZE = 60
+            const firstChunk = Array.from({ length: CHUNK_SIZE }, (_, i) => i)
+            await Promise.all([
+                ...firstChunk.map(loadFrame),
+                uiImg.decode()
+            ])
 
             draw(0)
             state.renderedFrame = 0
             setFrame(0)
-
-            // start animation immediately — GSAP will scrub what's loaded
             startAnimation()
 
-            // then load in priority order without blocking
-            loadInPriorityOrder()
-        }
-
-        async function loadInPriorityOrder() {
-            // 1. next ~10 frames so early scroll feels smooth
-            const earlyFrames = Array.from({ length: 10 }, (_, i) => i + 1)
-
-            // 2. snap frames so snapping always lands on a loaded frame  
-            // 3. rest in sequence
-            const queue = [
-                ...earlyFrames,
-                ...SNAP_FRAMES.filter(f => f > 10),
-                ...Array.from({ length: TOTAL_FRAMES }, (_, i) => i)
-                    .filter(i => i > 10 && !SNAP_FRAMES.includes(i))
-            ]
-
-            // deduplicate preserving order
-            const seen = new Set<number>()
-            const deduped = queue.filter(i => {
-                if (seen.has(i)) return false
-                seen.add(i)
-                return true
-            })
-
-            for (const i of deduped) {
-                if (frames[i]) continue
-                await loadFrame(i)
-                if (i % 5 === 0) {
-                    await new Promise(resolve => requestIdleCallback(resolve, { timeout: 50 }))
-                }
+            // load remaining chunks in background
+            for (let i = CHUNK_SIZE; i < TOTAL_FRAMES; i += CHUNK_SIZE) {
+                const chunk = Array.from(
+                    { length: Math.min(CHUNK_SIZE, TOTAL_FRAMES - i) },
+                    (_, j) => i + j
+                )
+                await Promise.all(chunk.map(loadFrame))
             }
         }
+
 
         let uiImg = new Image()
         uiImg.src = start
