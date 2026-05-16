@@ -50,7 +50,7 @@ export default function Hero() {
     }, []);
 
     useEffect(() => {
-        if (!mode || !loading) return
+        if (!mode) return
 
         const canvas = canvasRef.current!
 
@@ -314,7 +314,7 @@ export default function Hero() {
             controller.abort()
             ScrollTrigger.killAll()
         }
-    }, [mode, loading])
+    }, [mode])
 
     function computeTargetZoom() {
         const uiScale = mode == "desktop" ? 0.49 : 0.37;
