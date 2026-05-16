@@ -55,21 +55,57 @@ export default function Hero() {
         const canvas = canvasRef.current!
 
         const ctx = canvas.getContext("2d", { alpha: false })!
-
         const DPR = window.devicePixelRatio || 1
 
-        function resize() {
-            canvas.width = window.innerWidth * DPR
-            canvas.height = window.innerHeight * DPR
-            canvas.style.width = "100vw"
-            canvas.style.height = "100vh"
+        const viewport = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+
+        function setCanvasResolution() {
+            canvas.width = viewport.width * DPR
+            canvas.height = viewport.height * DPR
+
             ctx.setTransform(DPR, 0, 0, DPR, 0, 0)
+
+            canvas.style.width = `${viewport.width}px`
+            canvas.style.height = `${viewport.height}px`
         }
 
         const controller = new AbortController()
-        resize()
-        window.addEventListener("resize", resize, { signal: controller.signal })
 
+        setCanvasResolution()
+
+        let resizeTimeout: number | null = null
+        let lastWidth = window.innerWidth
+
+        function handleViewportResize() {
+            const newWidth = window.innerWidth
+
+            // ignore mobile browser bar height animation
+            if (Math.abs(newWidth - lastWidth) < 10) return
+
+            lastWidth = newWidth
+
+            if (resizeTimeout) clearTimeout(resizeTimeout)
+
+            resizeTimeout = window.setTimeout(() => {
+                viewport.width = window.innerWidth
+                viewport.height = window.innerHeight
+
+                setCanvasResolution()
+
+                draw(state.renderedFrame)
+
+                ScrollTrigger.refresh()
+            }, 150)
+        }
+
+        window.addEventListener(
+            "resize",
+            handleViewportResize,
+            { signal: controller.signal }
+        )
         ctx.imageSmoothingEnabled = true
         ctx.imageSmoothingQuality = "high"
 
@@ -135,9 +171,9 @@ export default function Hero() {
         function draw(frameIndex: number) {
             const img = frames[frameIndex]
             if (!img) return
-
-            const canvasW = canvas.width / DPR
-            const canvasH = canvas.height / DPR
+            
+            const canvasW = viewport.width
+            const canvasH = viewport.height
 
             const frameAspect = img.naturalWidth / img.naturalHeight
             const canvasAspect = canvasW / canvasH

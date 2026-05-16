@@ -5,12 +5,11 @@
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    gap: 2rem;
 
     border-radius: var(--roundness) var(--roundness) 0 0;
 
     color: #000;
-    
+
     @media (width < 768px) {
         padding-inline: 1.5rem;
 
@@ -24,7 +23,7 @@
     align-items: center;
     gap: 4rem;
 
-    & > div:nth-of-type(1) {
+    &>div:nth-of-type(1) {
         display: flex;
         flex-direction: column;
         gap: .6rem;
@@ -33,13 +32,17 @@
             display: none;
         }
     }
-    & > div:nth-of-type(2) {
+
+    &>div:nth-of-type(2) {
         display: flex;
         flex-direction: column;
         gap: .6rem;
         width: 500px;
-        max-width: 100%;
         overflow: hidden;
+
+        @media (width > 768px) {
+            width: 100%;
+        }
     }
 
     a {
@@ -59,7 +62,6 @@
 }
 
 #contact form {
-    max-width: 100%;
     width: 400px;
     background-color: #000;
     padding: 2rem;
@@ -70,6 +72,10 @@
     align-items: center;
     flex-direction: column;
     gap: 1rem;
+
+    @media (width < 768px) {
+        width: 100%;
+    }
 
     .form-row {
         display: flex;
