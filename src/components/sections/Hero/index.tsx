@@ -58,8 +58,13 @@ export default function Hero() {
         const DPR = window.devicePixelRatio || 1
 
         const viewport = {
-            width: window.innerWidth,
-            height: window.innerHeight
+            width: mode == "mobile"
+                ? Math.max(window.innerWidth, screen.width)
+                : window.innerWidth,
+
+            height: mode == "mobile"
+                ? Math.max(window.innerHeight, screen.height)
+                : window.innerHeight
         }
 
         function setCanvasResolution() {
@@ -80,25 +85,25 @@ export default function Hero() {
         let lastWidth = window.innerWidth
 
         function handleViewportResize() {
-            const newWidth = window.innerWidth
+            if (mode === "mobile") {
+                const orientationChanged =
+                    (window.innerWidth > window.innerHeight) !==
+                    (viewport.width > viewport.height)
 
-            // ignore mobile browser bar height animation
-            if (Math.abs(newWidth - lastWidth) < 10) return
+                if (!orientationChanged) return
 
-            lastWidth = newWidth
-
-            if (resizeTimeout) clearTimeout(resizeTimeout)
-
-            resizeTimeout = window.setTimeout(() => {
+                viewport.width = Math.max(window.innerWidth, screen.width)
+                viewport.height = Math.max(window.innerHeight, screen.height)
+            } else {
                 viewport.width = window.innerWidth
                 viewport.height = window.innerHeight
+            }
 
-                setCanvasResolution()
+            setCanvasResolution()
 
-                draw(state.renderedFrame)
+            draw(state.renderedFrame)
 
-                ScrollTrigger.refresh()
-            }, 150)
+            ScrollTrigger.refresh()
         }
 
         window.addEventListener(
