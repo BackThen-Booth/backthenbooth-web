@@ -81,9 +81,6 @@ export default function Hero() {
 
         setCanvasResolution()
 
-        let resizeTimeout: number | null = null
-        let lastWidth = window.innerWidth
-
         function handleViewportResize() {
             if (mode === "mobile") {
                 const orientationChanged =
