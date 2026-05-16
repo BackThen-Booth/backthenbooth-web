@@ -1,4 +1,21 @@
 .section-heading {
-  font-size: 4rem;
-  font-weight: 800;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-top: 100px;
+}
+
+#home {
+    z-index: 1;
+}
+
+#gallery {
+    z-index: 2;
+}
+
+#locations {
+    z-index: 3;
+}
+
+#contact {
+    z-index: 4;
 }

@@ -94,14 +94,53 @@ export default function Hero() {
         }
 
         async function loadInitialFrames() {
-            const initial = Array.from({ length: TOTAL_FRAMES }, (_, i) => loadFrame(i))
-            await Promise.all([...initial, uiImg.decode()])
+            // first frames needed immediately
+            const INITIAL_BATCH = 40
+
+            // prioritize important frames
+            const priorityFrames = [
+                ...Array.from(
+                    { length: INITIAL_BATCH },
+                    (_, i) => i
+                ),
+                ...SNAP_FRAMES
+            ]
+
+            // remove duplicates
+            const uniqueFrames = [...new Set(priorityFrames)]
+
+            // load critical startup frames first
+            await Promise.all([
+                ...uniqueFrames.map(loadFrame),
+                uiImg.decode()
+            ])
 
             draw(0)
+
             state.renderedFrame = 0
+
             setFrame(0)
 
             startAnimation()
+
+            // progressively load remaining frames
+            progressiveLoad()
+        }
+
+        async function progressiveLoad() {
+            for (let i = 0; i < TOTAL_FRAMES; i++) {
+                // skip already loaded
+                if (frames[i]) continue
+
+                await loadFrame(i)
+
+                // yield occasionally so UI stays smooth
+                if (i % 3 === 0) {
+                    await new Promise(resolve =>
+                        requestIdleCallback(resolve)
+                    )
+                }
+            }
         }
 
         let uiImg = new Image()
@@ -159,10 +198,12 @@ export default function Hero() {
                 const brightnessAnim = 0.8 + 0.2 * p
                 const { x, y, w, h } = frameBoundsRef.current!
 
-                const uiWidth = h * uiScale
-                const uiHeight = uiWidth / (382 / 226)
+                let winScale = (382 / 226)
 
-                console.log(uiWidth, uiHeight)
+                const uiScale = mode == "desktop" ? 0.49 : 0.37;
+
+                const uiWidth = h * uiScale
+                const uiHeight = uiWidth / winScale
 
                 const uiX = (x + w * 0.50) - (uiWidth / 2)
                 const uiY = (y + h * 0.50) - uiHeight - (h * 0.008)
@@ -239,12 +280,13 @@ export default function Hero() {
                     trigger: "#home",
                     start: "top top",
                     end: "+=20000",
-                    pin: canvasRef.current,
-                    pinnedContainer: canvasRef.current,
+                    // pin: canvasRef.current,
+                    // pinnedContainer: canvasRef.current,
                     scrub: 0.5,
-                    anticipatePin: 1,
+                    // anticipatePin: 1,
                     fastScrollEnd: true,
                     preventOverlaps: true,
+                    pinSpacing: false,
                     snap: {
                         delay: 0.2,
                         duration: { min: 0.3, max: 0.6 },
@@ -284,7 +326,6 @@ export default function Hero() {
                     renderZoom.current = zoomState.current.scale
                 }
             })
-
         }
 
         loadInitialFrames()
@@ -296,6 +337,8 @@ export default function Hero() {
     }, [mode])
 
     function computeTargetZoom() {
+        const uiScale = mode == "desktop" ? 0.49 : 0.37;
+
         const bounds = frameBoundsRef.current!
         const imgWidth = bounds.h * uiScale
 
@@ -316,22 +359,28 @@ export default function Hero() {
         return Math.max(18, h * scale)
     }
 
-    const fontScales = useMemo(() => ({
+    const fontScales = useMemo(() => mode === "mobile" ? ({
+        curtain: 0.115,
+        screen: 0.055,
+        props: 0.005
+    }) : ({
         curtain: 0.115,
         screen: 0.055,
         props: 0.075
-    }), [])
+    }), [mode])
 
-    const uiScale = 0.49 as const;
-
-    const anchors = useMemo(() => ({
+    const anchors = useMemo(() => mode === "mobile" ? ({
+        curtain: [0.25, 0.20],
+        screen: [0.45, 0.38],
+        props: [0.18, 0.32],
+    } as const) : ({
         curtain: [0.25, 0.20],
         screen: [0.50, 0.35],
         props: [0.27, 0.15],
-    } as const), [])
+    } as const), [mode])
 
-    const screenPos = framePos(...anchors.screen)
-    const propsPos = framePos(...anchors.props)
+    const screenPos = framePos(anchors.screen[0], anchors.screen[1])
+    const propsPos = framePos(anchors.props[0], anchors.props[1])
 
     return (
         <>
@@ -389,7 +438,7 @@ export default function Hero() {
                         </div>
                     </div>
                 )}
-                
+
                 {frame >= 308 && frame <= 337 && (
                     <div
                         className="text screen-text"
@@ -402,7 +451,7 @@ export default function Hero() {
                     >
                         <div className="text-mid">
                             Thousands of photos saved.
-                            <br/>
+                            <br />
                             Almost none we ever hold.
                         </div>
                     </div>
@@ -414,6 +463,7 @@ export default function Hero() {
                         style={{
                             left: propsPos.left,
                             top: propsPos.top,
+                            fontSize: frameFont(fontScales.props)
                         }}
                     >
                         <div className="text-main">

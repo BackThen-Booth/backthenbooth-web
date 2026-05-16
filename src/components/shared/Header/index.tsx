@@ -66,7 +66,7 @@ export default function Header() {
                             <NavLink to="#gallery" className="nav-link">Gallery</NavLink>
                             <NavLink to="#locations" className="nav-link">Locations</NavLink>
                         </nav>
-                        <NavLink to='#cta' className="cta-btn">Contact Us</NavLink>
+                        <NavLink to='#contact' className="cta-btn">Contact Us</NavLink>
                     </>
                 )}
 
@@ -77,7 +77,7 @@ export default function Header() {
                     <NavLink to="#locations" className="nav-link">Locations</NavLink>
                 </nav>}
             </header>
-            {collapsed && <NavLink to='#cta' className="cta-btn" data-collapsed={collapsed}>Contact Us</NavLink>}
+            {collapsed && <NavLink to='#contact' className="cta-btn" data-collapsed={collapsed}>Contact Us</NavLink>}
         </>
     )
 }

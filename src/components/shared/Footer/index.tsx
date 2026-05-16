@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react'
+
 import './styles.css'
 
 const imgsModules = import.meta.glob("./*.svg", { base: "../../../assets/icons", eager: true })
@@ -9,7 +10,7 @@ export default function Footer() {
   const socials = useMemo(() => [
     {
       name: "instagram",
-      handle: "https://instagram.com/@backthenbooth"
+      handle: "https://instagram.com/backthenbooth"
     },
     {
       name: "twitter",

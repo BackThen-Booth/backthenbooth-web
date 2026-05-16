@@ -1,4 +1,17 @@
 .section {
     width: 100%;
-    position: relative;
+    position: sticky;
+    min-height: 100vh;
+    top: -80px;
+    overflow: hidden;
+    padding-block: 80px;
+}
+
+.section#home {
+    top: 0;
+    padding: 0;
+}
+
+#home {
+    height: calc(20000px + 100vh);
 }

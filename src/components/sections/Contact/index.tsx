@@ -1,6 +1,28 @@
+import { useState } from 'react'
+
 import './styles.css'
 
 export default function Contact() {
+  const [fields, setFields] = useState({
+    first_name: '',
+    last_name: '',
+    user_email: '',
+    message: '',
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFields(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const subject = encodeURIComponent(`Message from ${fields.first_name} ${fields.last_name}`)
+    const body = encodeURIComponent(
+      `From: ${fields.first_name} ${fields.last_name}\nEmail: ${fields.user_email}\n\n${fields.message}`
+    )
+    window.open(`mailto:contact@backthenbooth.com?subject=${subject}&body=${body}`)
+  }
+
   return (
     <>
       <h2 className="section-heading">
@@ -28,30 +50,30 @@ export default function Contact() {
           </a>
         </div>
         <div>
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="first-name">First Name *</label>
-                <input id='first-name' type="text" required />
+                <input id="first-name" name="first_name" type="text" required onChange={handleChange} />
               </div>
               <div className="form-field">
                 <label htmlFor="last-name">Last Name</label>
-                <input id='last-name' type="text" />
+                <input id="last-name" name="last_name" type="text" onChange={handleChange} />
               </div>
             </div>
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="user-email">Email *</label>
-                <input id='user-email' type="email" required />
+                <input id="user-email" name="user_email" type="email" required onChange={handleChange} />
               </div>
             </div>
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="message">Message *</label>
-                <textarea id='message' required />
+                <textarea id="message" name="message" required onChange={handleChange} />
               </div>
             </div>
-            <button>Send</button>
+            <button type='submit'>Send</button>
           </form>
         </div>
       </div>

@@ -13,6 +13,8 @@ canvas {
     height: 100vh;
     image-rendering: auto;
     z-index: 1;
+    position: fixed;
+    top: 0;
 }
 
 .overlay-layer {
@@ -68,6 +70,8 @@ canvas {
     opacity: 0;
     animation: fadeIn 600ms ease forwards;
     animation-delay: 0.2s;
+
+    text-shadow: 0 0 8px #000;
     
     display: flex;
     flex-direction: column;
@@ -90,11 +94,11 @@ canvas {
 }
 
 .text.left {
-    left: 6rem;
+    left: 6vw;
     text-align: left;
 }
 .text.right {
-    right: 6rem;
+    right: 6vw;
     text-align: right;
 }
 .text.middle {
@@ -102,12 +106,12 @@ canvas {
     transform: translateY(-50%);
 }
 .text.bottom {
-    bottom: 6rem;
+    bottom: 6vw;
 }
 
 .screen-text {
     max-width: 400px;
-    font-size: 3rem;
+    font-size: var(--fs-300);
 }
 
 .prop-text {

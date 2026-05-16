@@ -10,7 +10,7 @@
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;
 
-    --bg: rgba(255, 255, 255, 0.11);
+    --bg: rgba(0, 0, 0, 0.322);
     --blur: 4px;
     --border: rgba(255, 255, 255, 0.3);
     --shadow:

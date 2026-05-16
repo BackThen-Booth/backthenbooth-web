@@ -11,16 +11,16 @@ const Locations = React.lazy(() => import('../components/sections/Locations'))
 export default function Landing() {
   return (
     <>
-      <Section name="home" data-speed={1}>
+      <Section name="home">
         <Hero />
       </Section>
-      <Section name="gallery" data-speed={2}>
+      <Section name="gallery">
         <Gallery />
       </Section>
-      <Section name="locations" data-speed={2}>
+      <Section name="locations">
         <Locations />
       </Section>
-      <Section name="contact" data-speed={2}>
+      <Section name="contact">
         <Contact />
       </Section>
     </>
