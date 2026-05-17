@@ -3,13 +3,13 @@
 
     width: 100%;
     position: sticky;
-    min-height: 100vh;
+    min-height: 100dvh;
     top: calc(-1 * var(--roundness));
-    overflow: hidden;
     padding-block: var(--roundness);
+    overflow: hidden;
 
     @media (width < 768px) {
-        --roundness: 60px
+        --roundness: 40px
     }
 }
 

@@ -37,7 +37,8 @@
   --fs-hero: clamp(2.5rem, 1.8rem + 4vw, 6rem);
 }
 
-html, body {
+html,
+body {
   overscroll-behavior: none;
 }
 
@@ -45,13 +46,15 @@ body {
   margin: 0;
   font-size: var(--fs-100);
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(0deg, var(--bg-clr-1), #000) no-repeat;
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
 
-*, *::after, *::before {
+*,
+*::after,
+*::before {
   box-sizing: border-box;
   outline: none !important;
   -webkit-user-drag: none !important;
@@ -62,11 +65,19 @@ a {
   text-decoration: unset;
 }
 
-button, h1, h2, h3, h4, h5, h6, p {
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   all: unset;
 }
 
-button, img {
+button,
+img {
   user-select: none !important;
   -ms-user-select: none !important;
   -moz-user-select: none !important;
@@ -84,7 +95,8 @@ img {
 }
 
 /* unselectable */
-[no-select="true"], [no-select="true"] * {
+[no-select="true"],
+[no-select="true"] * {
   user-select: none !important;
   -ms-user-select: none !important;
   -moz-user-select: none !important;
@@ -95,15 +107,22 @@ img {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background-color: var(--bg-clr-2);
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #ffffff42;
   border-radius: 1ex;
   transition: background-color 300ms linear
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background-color: #ffffff8e;
   transition: background-color 300ms linear
+}
+
+.no-scroll {
+  overflow: hidden;
 }

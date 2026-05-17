@@ -14,7 +14,7 @@ function App() {
     <Suspense fallback={
       <div style={{
         width: "100vw",
-        height: "100vh",
+        height: "100dvh",
         position: "fixed",
         inset: 0,
         display: "flex",

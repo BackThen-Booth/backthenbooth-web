@@ -15,7 +15,7 @@
     z-index: 110;
 
     @media (width < 768px) {
-        --roundness: 60px
+        --roundness: 40px
     }
 }
 

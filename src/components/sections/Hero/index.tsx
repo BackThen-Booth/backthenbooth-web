@@ -137,7 +137,8 @@ export default function Hero() {
         async function loadInitialFrames() {
             // preload first chunk before starting
             const CHUNK_SIZE = 60
-            const firstChunk = Array.from({ length: CHUNK_SIZE }, (_, i) => i)
+            const INITIAL_CHUNK_SIZE = 40
+            const firstChunk = Array.from({ length: INITIAL_CHUNK_SIZE }, (_, i) => i)
             await Promise.all([
                 ...firstChunk.map(loadFrame),
                 uiImg.decode()
@@ -151,7 +152,7 @@ export default function Hero() {
             startAnimation()
 
             // load remaining chunks in background
-            for (let i = CHUNK_SIZE; i < TOTAL_FRAMES; i += CHUNK_SIZE) {
+            for (let i = INITIAL_CHUNK_SIZE; i < TOTAL_FRAMES; i += CHUNK_SIZE) {
                 const chunk = Array.from(
                     { length: Math.min(CHUNK_SIZE, TOTAL_FRAMES - i) },
                     (_, j) => i + j
@@ -406,7 +407,7 @@ export default function Hero() {
                 loading && (
                     <div style={{
                         width: "100vw",
-                        height: "100vh",
+                        height: "100dvh",
                         position: "fixed",
                         inset: 0,
                         display: "flex",
