@@ -26,13 +26,25 @@ interface Origin {
 
 type Phase = 'idle' | 'expanding' | 'open' | 'closing'
 
+// load all images from all folder directories
+const allImages = import.meta.glob('/public/images/*/*.{jpg,jpeg,png,webp}', { eager: true, query: "?url", import: "default" })
+console.log(allImages)
+
+// group by folder name
+function getPhotosForFolder(label: string): string[] {
+  return Object.entries(allImages)
+    .filter(([path]) => path.includes(`/images/${label}/`))
+    .map(([, url]) => (url as string).replace("/public", ""))
+}
+
 export default function Gallery() {
   const folders: FolderData[] = [
     'RedBull F1 @ RGU',
+    'RedBull F1 @ ADTU',
   ].map((label, i) => ({
     label,
     color: FOLDER_COLORS[i % FOLDER_COLORS.length],
-    photos: [],
+    photos: getPhotosForFolder(label),
   }))
 
   const [openIdx, setOpenIdx] = useState<number | null>(null)
