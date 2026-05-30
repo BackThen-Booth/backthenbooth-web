@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Folder from '../../ui/Folder'
 import './styles.css'
 
@@ -28,7 +28,6 @@ type Phase = 'idle' | 'expanding' | 'open' | 'closing'
 
 // load all images from all folder directories
 const allImages = import.meta.glob('/public/images/*/*.{jpg,jpeg,png,webp}', { eager: true, query: "?url", import: "default" })
-console.log(allImages)
 
 // group by folder name
 function getPhotosForFolder(label: string): string[] {
@@ -51,7 +50,20 @@ export default function Gallery() {
   const [origin, setOrigin] = useState<Origin>({ xPct: 0.5, yPct: 0.5, xPx: 0, yPx: 0 })
   const [phase, setPhase] = useState<Phase>('idle')
 
-  const handleFolderDoubleClick = useCallback((idx: number, e: React.MouseEvent) => {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
+  const [lightboxIdx, setLightboxIdx] = useState<number>(0)
+
+    useEffect(() => {
+        if (lightboxSrc) {
+            document.documentElement.classList.add("no-scroll")
+            document.body.classList.add("no-scroll")
+        } else {
+            document.documentElement.classList.remove("no-scroll")
+            document.body.classList.remove("no-scroll")
+        }
+    }, [lightboxSrc])
+
+  const handleFolderClick = useCallback((idx: number, e: React.MouseEvent) => {
     const folderRect = (e.currentTarget as HTMLElement).getBoundingClientRect()
     const section = document.getElementById("gallery")
     if (!section) return
@@ -81,33 +93,30 @@ export default function Gallery() {
   }, [])
 
   const activeFolder = openIdx !== null ? folders[openIdx] : null
+  const activePhotos = activeFolder?.photos ?? []
 
-  // Arc: photos spread from top-right to bottom-left around center of section
-  // Center is fixed at 50%/50% of the overlay, arc radius relative to section size
-  // const ARC_START_DEG = 180   // left-center
-  // const ARC_END_DEG = 0       // right-center (going through bottom, so use 360 or go negative)
+  const openLightbox = (src: string, index: number) => {
+    setLightboxSrc(src)
+    setLightboxIdx(index)
+  }
 
-  const photoItems = (activeFolder?.photos ?? []).map((src, i, arr) => {
-    const t = arr.length === 1 ? 0.5 : i / (arr.length - 1)
-    const deg = 180 - t * 180  // 180 → 0, sweeping through top
-    // or for bottom arc:
-    // const deg = 180 + t * 180  // 180 → 360, sweeping through bottom
-    const rad = (deg * Math.PI) / 180
-    const RX = 50
-    const RY = 40
-    return {
-      src,
-      x: 50 + RX * Math.cos(rad),
-      y: 50 + RY * Math.sin(rad),
-      rotation: deg - 90,
-    }
-  })
+  const closeLightbox = () => setLightboxSrc(null)
+
+  const lightboxPrev = () => {
+    const newIdx = (lightboxIdx - 1 + activePhotos.length) % activePhotos.length
+    setLightboxIdx(newIdx)
+    setLightboxSrc(activePhotos[newIdx])
+  }
+
+  const lightboxNext = () => {
+    const newIdx = (lightboxIdx + 1) % activePhotos.length
+    setLightboxIdx(newIdx)
+    setLightboxSrc(activePhotos[newIdx])
+  }
 
   return (
     <>
-      <h2 className="section-heading">
-        {openIdx !== null ? folders[openIdx].label : 'Moments Captured.'}
-      </h2>
+      <h2 className="section-heading">Moments Captured.</h2>
 
       {/* Folders grid */}
       <div
@@ -122,7 +131,7 @@ export default function Gallery() {
           <div
             key={idx}
             className="folder-wrapper"
-            onDoubleClick={(e) => handleFolderDoubleClick(idx, e)}
+            onClick={(e) => handleFolderClick(idx, e)}
             style={{ pointerEvents: 'auto' }}
           >
             <Folder label={folder.label} />
@@ -140,27 +149,52 @@ export default function Gallery() {
             '--oy': `${origin.yPx}px`,
           } as React.CSSProperties}
         >
-          {/* Photos along arc */}
-          {phase === 'open' && photoItems.map((photo, i) => (
-            <div
-              key={i}
-              className="arc-photo"
-              style={{
-                '--arc-x': `${photo.x}%`,
-                '--arc-y': `${photo.y}%`,
-                '--arc-rot': `${photo.rotation}deg`,
-                animationDelay: `${i * 50}ms`,
-              } as React.CSSProperties}
-            >
-              <img src={photo.src} alt="" draggable={false} />
-            </div>
-          ))}
-
-          {/* Close button */}
           {phase === 'open' && (
-            <button className="arc-close-btn" onClick={handleClose}>
-              <span className="material-symbols-rounded">close</span>
-            </button>
+            <>
+              <h2 className="section-heading overlay-heading">
+                {folders[openIdx].label}
+              </h2>
+
+              <button className="close-btn" onClick={handleClose}>
+                <span className="material-symbols-rounded">close</span>
+              </button>
+
+              <div className="photo-grid">
+                {activePhotos.length == 0 && (
+                  <div className="photo-grid-empty">No photos yet.</div>
+                )}
+                {activePhotos.map((src, i) => (
+                  <div key={i} className="photo-item" onClick={() => openLightbox(src, i)}>
+                    <img src={src} alt={src} draggable={false} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {lightboxSrc && (
+            <div className="lightbox" onClick={closeLightbox}>
+              <button className="lightbox-close" onClick={closeLightbox}>
+                <span className="material-symbols-rounded">close</span>
+              </button>
+              <button className="lightbox-prev" onClick={(e) => { e.stopPropagation(); lightboxPrev() }}>
+                <span className="material-symbols-rounded">chevron_left</span>
+              </button>
+              <button
+                className="lightbox-img"
+                onClick={(e) => e.stopPropagation()}
+                no-select="true"
+              >
+                <img
+                  src={lightboxSrc}
+                  alt={lightboxSrc}
+                />
+              </button>
+              <button className="lightbox-next" onClick={(e) => { e.stopPropagation(); lightboxNext() }}>
+                <span className="material-symbols-rounded">chevron_right</span>
+              </button>
+              <div className="lightbox-counter">{lightboxIdx + 1} / {activePhotos.length}</div>
+            </div>
           )}
         </div>
       )}

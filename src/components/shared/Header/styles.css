@@ -237,26 +237,3 @@ nav {
     position: absolute;
     transform: rotate(-45deg);
 }
-
-
-@keyframes goldSweep {
-
-    0% {
-        left: -120%;
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    35% {
-        left: 120%;
-        opacity: 0;
-    }
-
-    100% {
-        left: 120%;
-        opacity: 0;
-    }
-}

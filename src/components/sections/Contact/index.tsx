@@ -20,7 +20,7 @@ export default function Contact() {
     const body = encodeURIComponent(
       `From: ${fields.first_name} ${fields.last_name}\nEmail: ${fields.user_email}\n\n${fields.message}`
     )
-    window.open(`mailto:contact@backthenbooth.com?subject=${subject}&body=${body}`)
+    window.open(`mailto:social@backthenbooth.com?subject=${subject}&body=${body}`)
   }
 
   return (
@@ -41,12 +41,12 @@ export default function Contact() {
             If you're interested in booking the booth, learning about our event pricing, hosting one at your venue, or creating content together, drop us a message. We're always excited to be part of something memorable.
           </div>
           <a
-            href='mailto:contact@backthenbooth.com'
+            href='mailto:social@backthenbooth.com'
             rel='noopener noreferrer'
             target='_blank'
           >
             <span className="material-symbols-rounded">email</span>
-            contact@backthenbooth.com
+            social@backthenbooth.com
           </a>
         </div>
         <div>
