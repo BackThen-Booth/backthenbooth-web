@@ -16,10 +16,10 @@ L.Icon.Default.mergeOptions({
 
 const LOCATIONS = [
   {
-    name: 'Guwahati',
-    address: 'Cotton University, Pan Bazar, 781001',
-    coords: [26.187452591989572, 91.74670766665398] as [number, number],
-    mapsUrl: 'https://maps.google.com/?q=Cotton+University+Guwahati',
+    name: 'Jorhat',
+    address: 'Ground Floor, Crystal SR Plaza, Gar-Ali, 785001',
+    coords: [26.75685008116702, 94.21528058465765] as [number, number],
+    mapsUrl: 'https://www.google.com/maps/place/BackThen+Booth,+Jorhat/@26.7566489,94.2153235,17z/data=!3m1!4b1!4m6!3m5!1s0x3746c3293c8441f1:0x21b5714f38b2499a!8m2!3d26.7566489!4d94.2153235!16s%2Fg%2F11zg3krcgt',
   },
 ]
 
@@ -30,7 +30,7 @@ export default function Locations() {
       <div className="locations-body">
         <div className="map">
           <MapContainer
-            center={[26.187452591989572, 91.74670766665398]}
+            center={[26.75685008116702, 94.21528058465765]}
             zoom={8}
             zoomControl={false}
             attributionControl={false}
