@@ -167,7 +167,7 @@ export default function Gallery() {
                 )}
                 {activePhotos.map((src, i) => (
                   <div key={i} className="photo-item" onClick={() => openLightbox(src, i)}>
-                    <img src={src} alt={src} draggable={false} />
+                    <img src={src} alt={src} draggable={false} loading='lazy' decoding='async' />
                   </div>
                 ))}
               </div>
@@ -190,6 +190,8 @@ export default function Gallery() {
                 <img
                   src={lightboxSrc}
                   alt={lightboxSrc}
+                  loading='lazy'
+                  decoding='async'
                 />
               </button>
               <button className="lightbox-next" onClick={(e) => { e.stopPropagation(); lightboxNext() }}>
