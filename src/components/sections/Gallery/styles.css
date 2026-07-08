@@ -91,7 +91,7 @@
     height: 100%;
     overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: .75rem;
     align-content: start;
 
@@ -149,10 +149,18 @@
 
 .lightbox-img {
     max-width: 90vw;
-    max-height: 100%;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+
+    img {
+        height: 100%;
+    }
 }
 
 .lightbox-close {

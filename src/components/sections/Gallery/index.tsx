@@ -40,6 +40,8 @@ export default function Gallery() {
   const folders: FolderData[] = [
     'RedBull F1 @ RGU',
     'RedBull F1 @ ADTU',
+    'Blooming Brunch',
+    'Cosplay Rave @ Cotton Uni'
   ].map((label, i) => ({
     label,
     color: FOLDER_COLORS[i % FOLDER_COLORS.length],
