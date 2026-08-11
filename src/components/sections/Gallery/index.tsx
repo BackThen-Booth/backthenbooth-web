@@ -40,6 +40,8 @@ export default function Gallery() {
   const folders: FolderData[] = [
     'RedBull F1 @ RGU',
     'RedBull F1 @ ADTU',
+    'Blooming Brunch',
+    'Cosplay Rave @ Cotton Uni'
   ].map((label, i) => ({
     label,
     color: FOLDER_COLORS[i % FOLDER_COLORS.length],
@@ -165,7 +167,7 @@ export default function Gallery() {
                 )}
                 {activePhotos.map((src, i) => (
                   <div key={i} className="photo-item" onClick={() => openLightbox(src, i)}>
-                    <img src={src} alt={src} draggable={false} />
+                    <img src={src} alt={src} draggable={false} loading='lazy' decoding='async' />
                   </div>
                 ))}
               </div>
@@ -188,6 +190,8 @@ export default function Gallery() {
                 <img
                   src={lightboxSrc}
                   alt={lightboxSrc}
+                  loading='lazy'
+                  decoding='async'
                 />
               </button>
               <button className="lightbox-next" onClick={(e) => { e.stopPropagation(); lightboxNext() }}>
