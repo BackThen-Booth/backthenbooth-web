@@ -48,7 +48,6 @@ body {
   width: 100%;
   min-height: 100dvh;
   background: linear-gradient(0deg, var(--bg-clr-1), #000) no-repeat;
-  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 

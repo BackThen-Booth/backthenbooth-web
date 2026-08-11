@@ -124,5 +124,19 @@
         padding: .6rem 2rem;
         line-height: 1;
         border-radius: 4ex;
+
+        &:disabled {
+            opacity: .6;
+            cursor: default;
+        }
+    }
+
+    .form-status {
+        font-size: var(--fs-075);
+        margin-top: .6rem;
+
+        &.error {
+            color: #ff6b6b;
+        }
     }
 }

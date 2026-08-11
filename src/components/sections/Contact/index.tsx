@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 
 import './styles.css'
+
+const EMAILJS_SERVICE_ID = 'service_x8dn4xa'
+const EMAILJS_TEMPLATE_ID = 'template_83k87he'
+const EMAILJS_PUBLIC_KEY = 'p_7pWYwGsh90saF9b'
 
 export default function Contact() {
   const [fields, setFields] = useState({
@@ -10,17 +15,30 @@ export default function Contact() {
     message: '',
   })
 
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFields(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = encodeURIComponent(`Message from ${fields.first_name} ${fields.last_name}`)
-    const body = encodeURIComponent(
-      `From: ${fields.first_name} ${fields.last_name}\nEmail: ${fields.user_email}\n\n${fields.message}`
-    )
-    window.open(`mailto:social@backthenbooth.com?subject=${subject}&body=${body}`)
+    setStatus('sending')
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        name: `${fields.first_name} ${fields.last_name}`.trim(),
+        email: fields.user_email,
+        message: fields.message,
+        title: 'New Booking Inquiry',
+        time: new Date().toLocaleString(),
+      }, { publicKey: EMAILJS_PUBLIC_KEY })
+
+      setStatus('sent')
+      setFields({ first_name: '', last_name: '', user_email: '', message: '' })
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -54,26 +72,31 @@ export default function Contact() {
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="first-name">First Name *</label>
-                <input id="first-name" name="first_name" type="text" required onChange={handleChange} />
+                <input id="first-name" name="first_name" type="text" required value={fields.first_name} onChange={handleChange} />
               </div>
               <div className="form-field">
                 <label htmlFor="last-name">Last Name</label>
-                <input id="last-name" name="last_name" type="text" onChange={handleChange} />
+                <input id="last-name" name="last_name" type="text" value={fields.last_name} onChange={handleChange} />
               </div>
             </div>
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="user-email">Email *</label>
-                <input id="user-email" name="user_email" type="email" required onChange={handleChange} />
+                <input id="user-email" name="user_email" type="email" required value={fields.user_email} onChange={handleChange} />
               </div>
             </div>
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="message">Message *</label>
-                <textarea id="message" name="message" required onChange={handleChange} />
+                <textarea id="message" name="message" required value={fields.message} onChange={handleChange} />
               </div>
             </div>
-            <button type='submit'>Send</button>
+            <button type='submit' disabled={status === 'sending'}>
+              {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Sent!' : 'Send'}
+            </button>
+            {status === 'error' && (
+              <div className="form-status error">Something went wrong — please try again.</div>
+            )}
           </form>
         </div>
       </div>

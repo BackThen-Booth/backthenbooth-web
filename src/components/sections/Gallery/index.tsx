@@ -166,7 +166,12 @@ export default function Gallery() {
                   <div className="photo-grid-empty">No photos yet.</div>
                 )}
                 {activePhotos.map((src, i) => (
-                  <div key={i} className="photo-item" onClick={() => openLightbox(src, i)}>
+                  <div
+                    key={i}
+                    className="photo-item"
+                    style={{ '--photo-delay': `${Math.min(i * 45, 500)}ms` } as React.CSSProperties}
+                    onClick={() => openLightbox(src, i)}
+                  >
                     <img src={src} alt={src} draggable={false} loading='lazy' decoding='async' />
                   </div>
                 ))}
