@@ -1,6 +1,6 @@
 import type React from 'react'
 import './styles.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useMenu } from '../../../contexts/MenuContext';
@@ -27,6 +27,18 @@ export default function Header() {
 
         return () => window.removeEventListener("resize", checkSize);
     }, []);
+
+    // The mobile menu makes #header expand to a full-screen overlay
+    // (data-menu="true" -> height: 100dvh), so reading its live offsetHeight
+    // as the nav-jump scroll offset while the menu is open massively
+    // overshoots (lands a whole viewport too high, in the section above).
+    // Track the bar's real height only while the menu is closed instead.
+    useLayoutEffect(() => {
+        if (!open) {
+            const el = document.getElementById('header')
+            if (el) closedHeaderHeight = el.offsetHeight
+        }
+    }, [open, collapsed])
 
     useEffect(() => {
         if (open) {
@@ -121,6 +133,8 @@ function absoluteTop(el: Element): number {
 // Short hops between the stacked cards stay a smooth scroll.
 const HERO_JUMP_THRESHOLD = 4000
 
+let closedHeaderHeight = 0
+
 let transitionOverlay: HTMLDivElement | null = null
 
 function getTransitionOverlay(): HTMLDivElement {
@@ -156,8 +170,7 @@ function NavLink({
 
                 e.preventDefault()
 
-                const header = document.getElementById('header')
-                const offset = to === '#home' ? 0 : (header?.offsetHeight ?? 0)
+                const offset = to === '#home' ? 0 : closedHeaderHeight
                 const targetY = absoluteTop(target) - offset
                 const distance = Math.abs(targetY - window.scrollY)
 

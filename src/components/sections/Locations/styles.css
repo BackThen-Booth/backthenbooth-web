@@ -49,11 +49,6 @@
     flex-direction: column;
     gap: 2rem;
 
-    @media (width < 768px) {
-        flex-direction: row;
-        overflow-x: scroll;
-    }
-
     &::-webkit-scrollbar {
         width: 0;
         height: 0;
