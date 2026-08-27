@@ -34,7 +34,7 @@ export default function Locations() {
     <>
       <h2 className="section-heading">Where to Find Us.</h2>
       <div className="locations-body">
-        <div className="map">
+        <div className="map dark-tiles">
           <MapContainer
             center={getMapCenter(LOCATIONS)}
             zoom={8}
@@ -43,8 +43,7 @@ export default function Locations() {
             minZoom={8}
             style={{ width: '100%', height: '100%' }}
           >
-            <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png" />
-            <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png" />
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {LOCATIONS.map((loc) => (
               <Marker key={loc.name} position={loc.coords} />
             ))}

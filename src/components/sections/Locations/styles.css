@@ -9,7 +9,7 @@
     gap: 2rem;
 
     border-radius: var(--roundness) var(--roundness) 0 0;
-    
+
     @media (width < 768px) {
         padding-inline: 1.5rem;
 
@@ -83,4 +83,8 @@
     span {
         text-decoration: underline;
     }
+}
+
+.dark-tiles {
+    filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
 }
