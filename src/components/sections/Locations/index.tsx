@@ -43,7 +43,7 @@ export default function Locations() {
             minZoom={8}
             style={{ width: '100%', height: '100%' }}
           >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {LOCATIONS.map((loc) => (
               <Marker key={loc.name} position={loc.coords} />
             ))}
